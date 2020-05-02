@@ -1,6 +1,7 @@
 <style>
     body {
         margin: 0px;
+        text-align: center;
     }
 </style>
 
@@ -19,11 +20,11 @@
             this.text = text;
             this.color = color;
             this.radi = radi - 2;
-            let z = (canvas.height / 2) - this.radi - 1;
+            let z = (canvas.height / 2) - this.radi - 3;
             let x = z * Math.sin(angle);
             let y = z * Math.cos(angle);
             this.pos = { x, y };
-            let size = 200
+            let size = 300
             do {
                 this.font = ctx.font = size + "px monospace";
                 size -= 2;
@@ -67,17 +68,16 @@
     }
 
     class Shapes {
-        positions = [
-            { a: 3.1415, r: h2 / 1.9 },
-            { a: 0.0001, r: h2 / 2.1 },
-            { a: 1.2651, r: h2 / 3.5 },
-            { a: 5.0201, r: h2 / 3.5 },
-            { a: 2.0068, r: h2 / 4.2 },
-            { a: 4.2839, r: h2 / 4.2 },
-        ]
-
-        constructor(items, colors) {
-            this.shapes = this.positions.map(
+        constructor(items, colors, h2) {
+            let positions = [
+                { a: 3.1415, r: h2 / 1.9 },
+                { a: 0.0001, r: h2 / 2.1 },
+                { a: 1.2651, r: h2 / 3.5 },
+                { a: 5.0201, r: h2 / 3.5 },
+                { a: 2.0068, r: h2 / 4.2 },
+                { a: 4.2839, r: h2 / 4.2 },
+            ];
+            this.shapes = positions.map(
                 (p, i) => new Shape(p.a, p.r, items[i], colors[i])
             );
         }
@@ -93,26 +93,33 @@
     }
 
     const canvas = document.getElementById('c');
+    if (window.innerWidth > 1200) {
+        let pt = window.innerWidth / canvas.width
+        canvas.width *= pt;
+        canvas.height *= pt;
+    }
     const ctx = canvas.getContext('2d');
     ctx.lineWidth = 10;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    let h2 = canvas.height / 2
+
+    // Shufle the colors and items
     colors.sort(() => Math.random() - 0.5);
     items.sort(() => Math.random() - 0.5);
 
-    let left = new Shapes(items, colors);
-    let right = new Shapes(items.slice(6), colors.slice(3))
+    let h2 = canvas.height / 2
+    let left = new Shapes(items, colors, h2);
+    let right = new Shapes(items.slice(6), colors.slice(3), h2)
+
     let dup = Math.floor(Math.random() * Math.floor(6))
-    console.log(left.shapes[dup].text)
     let rand = Math.floor(Math.random() * Math.floor(6))
     left.shapes[rand].text = right.shapes[dup].text
 
-    function draw() {
-        left.draw(h2, h2);
-        right.draw(canvas.width - h2, h2);
-    }
 
-    //setInterval(draw, 500);  
-    draw()
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.stroke();
+
+    left.draw(h2, h2);
+    right.draw(canvas.width - h2, h2); 
 </script>
