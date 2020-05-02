@@ -26,14 +26,14 @@
             let size = 200
             do {
                 this.font = ctx.font = size + "px monospace";
-                size--;
+                size -= 2;
             } while (!this.textFits(text, radi * 1.7));
         }
 
         textFits(text, max) {
             let m = ctx.measureText(text);
             let h = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
-            return (m.width < max) && (h < max)
+            return Math.sqrt(m.width * m.width + h * h) < max
         }
 
         draw() {
@@ -95,9 +95,9 @@
 
     shapes1 = positions.map((p, i) => new Shape(p.a, p.r, numbers[i], colors[i]));
     shapes2 = positions.map((p, i) => new Shape(p.a, p.r, numbers[i + 6], colors[i + 3]));
-    dup = Math.floor(Math.random() * Math.floor(6))
+    let dup = Math.floor(Math.random() * Math.floor(6))
     console.log(shapes1[dup].text)
-    rand = Math.floor(Math.random() * Math.floor(6))
+    let rand = Math.floor(Math.random() * Math.floor(6))
     shapes2[rand].text = shapes1[dup].text
 
     function draw() {
