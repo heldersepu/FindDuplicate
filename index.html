@@ -8,11 +8,11 @@
 
 <script>
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"]
-    let numbers = [13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 61, 67, 83, 89]
+    let items = [13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 61, 67, 83, 89]
     if (window.location.hash === "#jp")
-        numbers = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
+        items = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
     else if (window.location.hash === "#gk")
-        numbers = ["α", "β", "γ", "δ", "ε", "θ", "κ", "ξ", "ο", "π", "τ", "υ", "χ", "ψ", "ω"]
+        items = ["α", "β", "γ", "δ", "ε", "θ", "κ", "ξ", "ο", "π", "τ", "υ", "χ", "ψ", "ω"]
 
     class Shape {
         constructor(angle, radi, text, color) {
@@ -66,13 +66,30 @@
         }
     }
 
-    function drawShape(pos, shapes) {
-        let rot = Math.random() * 10
-        ctx.translate(pos.x, pos.y);
-        ctx.rotate(rot)
-        shapes.forEach(c => c.draw());
-        ctx.rotate(-rot)
-        ctx.translate(-pos.x, -pos.y);
+    class Shapes {
+        positions = [
+            { a: 3.1415, r: h2 / 1.9 },
+            { a: 0.0001, r: h2 / 2.1 },
+            { a: 1.2651, r: h2 / 3.5 },
+            { a: 5.0201, r: h2 / 3.5 },
+            { a: 2.0068, r: h2 / 4.2 },
+            { a: 4.2839, r: h2 / 4.2 },
+        ]
+
+        constructor(items, colors) {
+            this.shapes = this.positions.map(
+                (p, i) => new Shape(p.a, p.r, items[i], colors[i])
+            );
+        }
+
+        draw(x, y) {
+            let rot = Math.random() * 10
+            ctx.translate(x, y);
+            ctx.rotate(rot)
+            this.shapes.forEach(c => c.draw());
+            ctx.rotate(-rot)
+            ctx.translate(-x, -y);
+        }
     }
 
     const canvas = document.getElementById('c');
@@ -82,29 +99,18 @@
     ctx.textBaseline = "middle";
     let h2 = canvas.height / 2
     colors.sort(() => Math.random() - 0.5);
-    numbers.sort(() => Math.random() - 0.5);
+    items.sort(() => Math.random() - 0.5);
 
-    const positions = [
-        { a: 3.1415, r: h2 / 1.9 },
-        { a: 0.0001, r: h2 / 2.1 },
-        { a: 1.2651, r: h2 / 3.5 },
-        { a: 5.0201, r: h2 / 3.5 },
-        { a: 2.0068, r: h2 / 4.2 },
-        { a: 4.2839, r: h2 / 4.2 },
-    ]
-
-    shapes1 = positions.map((p, i) => new Shape(p.a, p.r, numbers[i], colors[i]));
-    shapes2 = positions.map((p, i) => new Shape(p.a, p.r, numbers[i + 6], colors[i + 3]));
+    let left = new Shapes(items, colors);
+    let right = new Shapes(items.slice(6), colors.slice(3))
     let dup = Math.floor(Math.random() * Math.floor(6))
-    console.log(shapes1[dup].text)
+    console.log(left.shapes[dup].text)
     let rand = Math.floor(Math.random() * Math.floor(6))
-    shapes2[rand].text = shapes1[dup].text
+    left.shapes[rand].text = right.shapes[dup].text
 
     function draw() {
-        let pos = { x: h2, y: h2 }
-        drawShape(pos, shapes1);
-        pos = { x: canvas.width - h2, y: h2 }
-        drawShape(pos, shapes2);
+        left.draw(h2, h2);
+        right.draw(canvas.width - h2, h2);
     }
 
     //setInterval(draw, 500);  
