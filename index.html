@@ -9,6 +9,8 @@
 <script>
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"]
     let numbers = [13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 61, 67, 83, 89]
+    if (window.location.hash === "#jp")
+        numbers = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"]
 
     class Shape {
         constructor(angle, radi, text, color) {
