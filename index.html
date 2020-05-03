@@ -42,6 +42,7 @@
         draw() {
             let angle = Math.random() * 10
             ctx.beginPath();
+            ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
             ctx.translate(this.pos.x, this.pos.y);
             ctx.rotate(angle)
 
@@ -58,8 +59,7 @@
             ctx.beginPath();
             ctx.stroke();
             ctx.font = this.font
-            ctx.fillStyle = "black";
-            ctx.fillText(this.text, 2, 2);
+            ctx.shadowOffsetX = ctx.shadowOffsetY = 2;
             ctx.fillStyle = this.color;
             ctx.fillText(this.text, 0, 0);
 
@@ -104,6 +104,7 @@
     ctx.lineWidth = 10;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.shadowColor = "black";
 
     // Shufle the colors and items
     colors.sort(() => Math.random() - 0.5);
