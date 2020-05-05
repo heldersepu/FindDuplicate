@@ -18,10 +18,11 @@
         items = ["😀", "😆", "🤩", "😜", "🤐", "🤥", "😷", "🥵", "🥶", "🤯", "🤠", "😎", "😱", "💩", "🤖"];
 
     class Shape {
-        constructor(pos, radius, text, color) {
+        constructor(pos, radius, angle, text, color) {
             this.text = text;
             this.color = color;
             this.radius = radius;
+            this.angle = angle
             this.pos = pos;
             let size = 300;
             do {
@@ -46,11 +47,10 @@
         }
 
         draw() {
-            let angle = Math.random() * 10;
             ctx.beginPath();
             ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
             ctx.translate(this.pos.x, this.pos.y);
-            ctx.rotate(angle);
+            ctx.rotate(this.angle);
 
             ctx.strokeStyle = "black";
             ctx.arc(0, 0, this.radius + 0.5, 2 * Math.PI, 0);
@@ -69,7 +69,7 @@
             ctx.fillStyle = this.color;
             ctx.fillText(this.text, 0, 0);
 
-            ctx.rotate(-angle);
+            ctx.rotate(-this.angle);
             ctx.translate(-this.pos.x, -this.pos.y);
             ctx.closePath();
         }
@@ -91,7 +91,7 @@
                     let z = (canvas.height / 2) - p.r - 3;
                     let x = pos.x + z * Math.sin(p.a + angle);
                     let y = pos.y + z * Math.cos(p.a + angle);
-                    return new Shape({ x, y }, p.r, items[i], colors[i])
+                    return new Shape({ x, y }, p.r, Math.random() * 10, items[i], colors[i])
                 }
             );
         }
@@ -102,6 +102,13 @@
                     return true;
             }
             return false;
+        }
+
+        clearNonMatch(text) {
+            this.shapes.forEach(c => {
+                if (c.text !== text)
+                    c.text = "";
+            });
         }
 
         draw() {
@@ -117,6 +124,22 @@
         };
     }
 
+    function showResults(text) {
+        ctx.beginPath();
+        ctx.globalAlpha = 0.6
+        ctx.fillStyle = "white";
+        ctx.rect(100, 100, canvas.width - 200, canvas.height - 200);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.globalAlpha = 1
+        ctx.fillStyle = "black";
+        this.font = ctx.font = "100px monospace";
+        ctx.translate(canvas.width / 2, h2);
+        ctx.fillText(text, 0, 0);
+        ctx.fill();
+    }
+
     function canvasClick(evt) {
         let span = (new Date() - timer) / 1000;
         if (timer != null) {
@@ -128,20 +151,24 @@
                 text = "👍 "
             }
 
-            ctx.beginPath();
-            ctx.globalAlpha = 0.7
-            ctx.fillStyle = "white";
-            ctx.rect(100, 100, canvas.width - 200, canvas.height - 200);
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.globalAlpha = 1
-            ctx.fillStyle = "black";
-            this.font = ctx.font = "100px monospace";
-            ctx.translate(canvas.width / 2, h2);
-            ctx.fillText(text + span, 0, 0);
-            ctx.fill();
+            left.clearNonMatch(dup)
+            right.clearNonMatch(dup)
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            draw(false);
+            setTimeout(function () { showResults(text + span) }, 600);
         }
+    }
+
+    function draw(separator) {
+        if (separator) {
+            ctx.strokeStyle = "black";
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+        }
+
+        left.draw();
+        right.draw();
     }
 
     const canvas = document.getElementById('c');
@@ -169,13 +196,7 @@
     let r2 = Math.floor(Math.random() * Math.floor(6));
     const dup = left.shapes[r1].text = right.shapes[r2].text;
 
-
-    ctx.moveTo(canvas.width / 2, 0);
-    ctx.lineTo(canvas.width / 2, canvas.height);
-    ctx.stroke();
-
-    left.draw();
-    right.draw();
+    draw(true)
     let timer = new Date();
 
 </script>
