@@ -2,13 +2,13 @@
 Simple HTML game to find duplicate
 
 ## Numbers
-- https://raw.githack.com/heldersepu/FindDuplicate/master/index.html
+- https://heldersepu.github.io/FindDuplicate/
 
 ## Japanese characters
-- https://raw.githack.com/heldersepu/FindDuplicate/master/index.html#jp
+- https://heldersepu.github.io/FindDuplicate/#jp
 
 ## Greek characters
-- https://raw.githack.com/heldersepu/FindDuplicate/master/index.html#gk
+- https://heldersepu.github.io/FindDuplicate/#gk
 
 ## Emojis
-- https://raw.githack.com/heldersepu/FindDuplicate/master/index.html#emo
+- https://heldersepu.github.io/FindDuplicate/#emo
