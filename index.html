@@ -1,21 +1,33 @@
-<style>
-    body {
-        margin: 0px;
-        text-align: center;
-    }
-</style>
-
-<canvas id="c" width=900 height=400></canvas>
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+        body {
+            margin: 0px;
+            text-align: center;
+        }
+    </style>
+    <canvas id="c" width=900 height=400></canvas>
+</html>
 
 <script>
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"];
     let items = [13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 61, 67, 83, 89];
+    let rotation = 10
     if (window.location.hash === "#jp")
         items = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"];
     else if (window.location.hash === "#gk")
         items = ["α", "β", "γ", "δ", "ε", "θ", "κ", "ξ", "ο", "π", "τ", "υ", "χ", "ψ", "ω"];
     else if (window.location.hash === "#emo")
         items = ["😀", "😆", "🤩", "😜", "🤐", "🤥", "😷", "🥵", "🥶", "🤯", "🤠", "😎", "😱", "💩", "🤖"];
+    else if (window.location.hash === "#math") {
+        rotation = 0.8
+        items = []
+        for (let i = 6; i < 20; i++) {
+            let a = Math.floor(Math.random() * (i-1))+1
+            let b = i - a
+            items.push(a + "+" + b)
+        }
+    }
 
     class Shape {
         constructor(pos, radius, angle, text, color) {
@@ -76,7 +88,7 @@
     }
 
     class Shapes {
-        constructor(items, colors, pos) {
+        constructor(items, colors, pos, rotation) {
             let positions = [
                 { a: 3.1415, r: pos.y / 1.9 },
                 { a: 0.0001, r: pos.y / 2.1 },
@@ -91,7 +103,8 @@
                     let z = (canvas.height / 2) - p.r - 3;
                     let x = pos.x + z * Math.sin(p.a + angle);
                     let y = pos.y + z * Math.cos(p.a + angle);
-                    return new Shape({ x, y }, p.r, Math.random() * 10, items[i], colors[i])
+                    let a = (Math.random()-0.5) * rotation
+                    return new Shape({ x, y }, p.r, a, items[i], colors[i])
                 }
             );
         }
@@ -170,7 +183,7 @@
             showUserClick(mouse)
             setTimeout(function () { showResults(text + span) }, 600);
         } else if (ctx.fillStyle == "#000001"){
-           location.reload();
+            window.location.reload();
         }
     }
 
@@ -204,8 +217,8 @@
     items.sort(() => Math.random() - 0.5);
 
     let h2 = canvas.height / 2;
-    let right = new Shapes(items, colors, { x: canvas.width - h2, y: h2 });
-    let left = new Shapes(items.slice(6), colors.slice(3), { x: h2, y: h2 });
+    let right = new Shapes(items, colors, { x: canvas.width - h2, y: h2 }, rotation);
+    let left = new Shapes(items.slice(6), colors.slice(3), { x: h2, y: h2 }, rotation);
 
     let r1 = Math.floor(Math.random() * Math.floor(6));
     let r2 = Math.floor(Math.random() * Math.floor(6));

@@ -12,3 +12,6 @@ Simple HTML game to find duplicate
 
 ## Emojis
 - https://heldersepu.github.io/FindDuplicate/#emo
+
+## Math
+- https://heldersepu.github.io/FindDuplicate/#math
