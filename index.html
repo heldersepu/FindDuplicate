@@ -49,8 +49,11 @@
             return Math.sqrt(m.width * m.width + h * h) < max;
         }
 
-        isMatch(mouse, text) {
-            if (text === this.text) {
+        isMatch(mouse, text, value) {
+            let mathMatch = false
+            if (value)
+                mathMatch = eval(this.text) === value
+            if (text === this.text || mathMatch) {
                 let dx = this.pos.x - mouse.x;
                 let dy = this.pos.y - mouse.y;
                 return Math.sqrt(dx * dx + dy * dy) < this.radius;
@@ -110,18 +113,29 @@
         }
 
         isMatch(mouse, text) {
+            let value = false
+            if (text.includes("+"))
+                value = eval(text)
             for (let i = 0; i < this.shapes.length; i++) {
-                if (this.shapes[i].isMatch(mouse, text))
+                if (this.shapes[i].isMatch(mouse, text, value))
                     return true;
             }
             return false;
         }
 
         clearNonMatch(text) {
-            this.shapes.forEach(c => {
-                if (c.text !== text)
-                    c.text = "";
-            });
+            if (text.includes("+")) {
+                let value = eval(text)
+                this.shapes.forEach(c => {
+                    if (eval(c.text) !== value)
+                        c.text = "";
+                });
+            } else {
+                this.shapes.forEach(c => {
+                    if (c.text !== text)
+                        c.text = "";
+                });
+            }
         }
 
         draw() {
@@ -158,7 +172,6 @@
         ctx.beginPath();
         ctx.strokeStyle = "black";
         ctx.setLineDash([3, 5]);
-        console.log(ctx.shadowOffsetX, ctx.shadowOffsetY)
         ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
         ctx.arc(mouse.x, mouse.y, 10, 0, 2 * Math.PI);
         ctx.stroke();
@@ -223,6 +236,14 @@
     let r1 = Math.floor(Math.random() * Math.floor(6));
     let r2 = Math.floor(Math.random() * Math.floor(6));
     const dup = left.shapes[r1].text = right.shapes[r2].text;
+    if (dup.includes("+")){
+        while (left.shapes[r1].text == right.shapes[r2].text) {
+            let v = eval(right.shapes[r2].text)
+            let a = Math.floor(Math.random() * (v-1))+1
+            let b = v - a
+            right.shapes[r2].text = a + "+" + b
+        }
+    }
 
     draw(true)
     let timer = new Date();
