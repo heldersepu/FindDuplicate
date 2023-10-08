@@ -4,14 +4,17 @@
         body {
             margin: 0px;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
-    <canvas id="c" width=900 height=400></canvas>
+        <canvas id="c" width=900 height=400></canvas>
 </html>
 
 <script>
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"];
-    let items = [13, 17, 19, 23, 29, 37, 41, 43, 47, 53, 61, 67, 83, 89];
+    let items = ["13", "17", "19", "23", "29", "37", "41", "43", "47", "53", "61", "67", "83", "89"];
     let rotation = 10
     if (window.location.hash === "#jp")
         items = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"];
@@ -214,6 +217,7 @@
 
     const canvas = document.getElementById('c');
     canvas.addEventListener('click', canvasClick, false);
+    document.body.style.height = window.innerHeight + "px"
     if (window.innerWidth > 1200) {
         let pt = window.innerWidth / canvas.width;
         canvas.width *= pt;
