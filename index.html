@@ -38,11 +38,14 @@
     } else if (window.location.hash === "#mult") {
         rotation = 0.8
         items = []
+        results = []
         do {
-            let a = Math.floor(Math.random() * 7) + 2
-            let b = Math.floor(Math.random() * 7) + 2
-            if (!items.includes(a + "*" + b) && !items.includes(b + "*" + a))
+            let a = Math.floor(Math.random() * 8) + 2
+            let b = Math.floor(Math.random() * 8) + 2
+            if (!results.includes(a * b)) {
                 items.push(a + "*" + b)
+                results.push(a * b)
+            }
         } while (items.length < 15);
     }
 
