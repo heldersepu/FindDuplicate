@@ -16,13 +16,13 @@
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"];
     let items = ["13", "17", "19", "23", "29", "37", "41", "43", "47", "53", "61", "67", "83", "89"];
     let rotation = 10
-    if (window.location.hash === "#jp")
+    if (window.location.hash === "#jp") {
         items = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"];
-    else if (window.location.hash === "#gk")
+    } else if (window.location.hash === "#gk") {
         items = ["α", "β", "γ", "δ", "ε", "θ", "κ", "ξ", "ο", "π", "τ", "υ", "χ", "ψ", "ω"];
-    else if (window.location.hash === "#emo")
+    } else if (window.location.hash === "#emo") {
         items = ["😀", "😆", "🤩", "😜", "🤐", "🤥", "😷", "🥵", "🥶", "🤯", "🤠", "😎", "😱", "💩", "🤖"];
-    else if (window.location.hash === "#abc") {
+    } else if (window.location.hash === "#abc") {
         items = []
         for (let i = 97; i < 122; i++) {
             items.push(String.fromCharCode(i))
@@ -69,14 +69,18 @@
             return Math.sqrt(m.width * m.width + h * h) < max;
         }
 
+        isPointInside(mouse) {
+            let dx = this.pos.x - mouse.x;
+            let dy = this.pos.y - mouse.y;
+            return Math.sqrt(dx * dx + dy * dy) < this.radius;
+        }
+
         isMatch(mouse, text, value) {
             let mathMatch = false
             if (value)
                 mathMatch = eval(this.text) === value
             if (text === this.text || mathMatch) {
-                let dx = this.pos.x - mouse.x;
-                let dy = this.pos.y - mouse.y;
-                return Math.sqrt(dx * dx + dy * dy) < this.radius;
+                return this.isPointInside(mouse)
             }
             return false;
         }
@@ -130,6 +134,14 @@
                     return new Shape({ x, y }, p.r, a, items[i], colors[i])
                 }
             );
+        }
+
+        isPointInside(mouse) {
+            for (let i = 0; i < this.shapes.length; i++) {
+                if (this.shapes[i].isPointInside(mouse))
+                    return true;
+            }
+            return false;
         }
 
         isMatch(mouse, text) {
@@ -201,20 +213,17 @@
     function canvasClick(evt) {
         let span = (new Date() - timer) / 1000;
         if (timer != null) {
-            timer = null
             let mouse = getMousePos(canvas, evt);
-            let text = "👎 "
-
-            if (left.isMatch(mouse, dup) || right.isMatch(mouse, dup)) {
-                text = "👍 "
+            if (left.isPointInside(mouse) || right.isPointInside(mouse)) {
+                timer = null
+                let text = (left.isMatch(mouse, dup) || right.isMatch(mouse, dup)) ? "👍 " : "👎 "
+                left.clearNonMatch(dup)
+                right.clearNonMatch(dup)
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                draw(false);
+                showUserClick(mouse)
+                setTimeout(function () { showResults(text + span) }, 600);
             }
-
-            left.clearNonMatch(dup)
-            right.clearNonMatch(dup)
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            draw(false);
-            showUserClick(mouse)
-            setTimeout(function () { showResults(text + span) }, 600);
         } else if (ctx.fillStyle == "#000001"){
             window.location.reload();
         }
