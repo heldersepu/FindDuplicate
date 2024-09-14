@@ -13,5 +13,8 @@ Simple HTML game to find duplicate
 ## Emojis
 - https://heldersepu.github.io/FindDuplicate/#emo
 
-## Math
+## Math addition
 - https://heldersepu.github.io/FindDuplicate/#math
+
+## Math multiplication
+- https://heldersepu.github.io/FindDuplicate/#mult
