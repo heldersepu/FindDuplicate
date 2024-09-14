@@ -134,7 +134,7 @@
 
         isMatch(mouse, text) {
             let value = false
-            if (text.includes("+"))
+            if (text.includes("+") || text.includes("*"))
                 value = eval(text)
             for (let i = 0; i < this.shapes.length; i++) {
                 if (this.shapes[i].isMatch(mouse, text, value))
@@ -144,7 +144,7 @@
         }
 
         clearNonMatch(text) {
-            if (text.includes("+")) {
+            if (text.includes("+") || text.includes("*")) {
                 let value = eval(text)
                 this.shapes.forEach(c => {
                     if (eval(c.text) !== value)
@@ -264,6 +264,8 @@
             let b = v - a
             right.shapes[r2].text = a + "+" + b
         }
+    } else if (dup.includes("*")) {
+        right.shapes.forEach(c => c.text = eval(c.text));
     }
 
     draw(true)
