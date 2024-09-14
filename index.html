@@ -35,6 +35,15 @@
             let b = i - a
             items.push(a + "+" + b)
         }
+    } else if (window.location.hash === "#mult") {
+        rotation = 0.8
+        items = []
+        do {
+            let a = Math.floor(Math.random() * 7) + 2
+            let b = Math.floor(Math.random() * 7) + 2
+            if (!items.includes(a + "*" + b) && !items.includes(b + "*" + a))
+                items.push(a + "*" + b)
+        } while (items.length < 15);
     }
 
     class Shape {
