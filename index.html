@@ -35,12 +35,14 @@
 
 <script>
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"];
-    let items = ["13", "17", "19", "23", "29", "37", "41", "43", "47", "53", "61", "67", "83", "89"];
+    let items = ["🐶", "🐱", "🐴", "🐮", "🐰", "🐷", "🐺", "🐻", "🐼", "🐯", "🐭", "🐹", "🐵", "🐳", "🐸"];
     let rotation = 10
     if (window.location.hash === "#jp") {
         items = ["あ", "え", "か", "き", "け", "す", "せ", "そ", "が", "げ", "ぱ", "ぴ", "ぷ", "ぺ", "ぽ"];
     } else if (window.location.hash === "#gk") {
         items = ["α", "β", "γ", "δ", "ε", "θ", "κ", "ξ", "ο", "π", "τ", "υ", "χ", "ψ", "ω"];
+    } else if (window.location.hash === "#num") {
+        items = ["13", "17", "19", "23", "29", "37", "41", "43", "47", "53", "61", "67", "83", "89"];
     } else if (window.location.hash === "#emo") {
         items = ["😀", "😆", "🤩", "😜", "🤐", "🤥", "😷", "🥵", "🥶", "🤯", "🤠", "😎", "😱", "💩", "🤖"];
     } else if (window.location.hash === "#animals") {
@@ -147,7 +149,7 @@
                 { a: 2.0068, r: pos.y / 4.2 },
                 { a: 4.2839, r: pos.y / 4.2 },
             ]
-            if (window.location.hash === "#animals") {
+            if (window.location.hash === "#animals" || window.location.hash === "") {
                 positions = [
                     { a: 0.05, r: pos.y / 3.1 },
                     { a: 1.10, r: pos.y / 3.1 },

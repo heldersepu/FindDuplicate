@@ -2,7 +2,7 @@
 Simple HTML game to find duplicate
 
 ## Numbers
-- https://heldersepu.github.io/FindDuplicate/
+- https://heldersepu.github.io/FindDuplicate/#num
 
 ## Japanese characters
 - https://heldersepu.github.io/FindDuplicate/#jp
