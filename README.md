@@ -13,11 +13,11 @@ Simple HTML game to find duplicate
 ## Emojis
 - https://heldersepu.github.io/FindDuplicate/#emo
 
+## Animal Emojis!
+- https://heldersepu.github.io/FindDuplicate/#animals
+
 ## Math addition
 - https://heldersepu.github.io/FindDuplicate/#math
 
 ## Math multiplication
 - https://heldersepu.github.io/FindDuplicate/#mult
-
-## Animal Emojis!
-- https://heldersepu.github.io/FindDuplicate/#animals
