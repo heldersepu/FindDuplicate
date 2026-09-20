@@ -8,9 +8,34 @@
             justify-content: center;
             align-items: center;
         }
+        .animated-bg {
+            width: 100%;
+            height: 100vh;
+            /* Starting fallback color */
+            background-color: #ff9a9e; 
+            /* Name, duration, timing function, and repeat behavior */
+            animation: colorChange 12s ease infinite alternate; 
+        }
+
+            /* Define the color timeline */
+        @keyframes colorChange {
+        0% {
+            background-color: #ff9a9e;
+        }
+        33% {
+            background-color: #a1c4fd;
+        }
+        66% {
+            background-color: #c2eed3;
+        }
+        100% {
+            background-color: #fecfef;
+        }
+}
     </style>
+    <body class="animated-bg">
         <canvas id="c" width=900 height=400></canvas>
-</html>
+    </body>
 
 <script>
     let colors = ["red", "tomato", "cyan", "green", "pink", "blue", "orange", "gray", "violet", "magenta"];
@@ -293,3 +318,4 @@
     let timer = new Date();
 
 </script>
+</html>
