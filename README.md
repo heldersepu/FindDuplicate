@@ -18,3 +18,6 @@ Simple HTML game to find duplicate
 
 ## Math multiplication
 - https://heldersepu.github.io/FindDuplicate/#mult
+
+## Animal Emojis!
+- https://heldersepu.github.io/FindDuplicate/#animals
