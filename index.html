@@ -42,7 +42,9 @@
 
 <script>
     const music = document.getElementById("animalMusic");
-    music.play().catch(e => console.log("Playback failed:", e));
+    window.addEventListener("click", () => {
+        music.play().catch(e => console.log("Playback failed:", e));
+    }, { once: true });
     let colors = ["black",];
     let items = ["🐶", "🐱", "🐴", "🐮", "🐰", "🐷", "🐺", "🐻", "🐼", "🐯", "🐭", "🐹", "🐵", "🐳", "🐸"];
     let rotation = 10
