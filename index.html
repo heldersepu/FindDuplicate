@@ -257,8 +257,8 @@
     }
 
     function canvasClick(evt) {
-        let span = (new Date() - timer) / 1000;
         if (timer != null) {
+            let span = (new Date() - timer) / 1000;
             let mouse = getMousePos(canvas, evt);
             if (left.isPointInside(mouse) || right.isPointInside(mouse)) {
                 timer = null
@@ -271,7 +271,8 @@
                 setTimeout(function () { showResults(text + span) }, 600);
             }
         } else if (ctx.fillStyle == "#000001"){
-            window.location.reload();
+            ctx.reset();
+            startGame()
         }
     }
 
@@ -281,10 +282,40 @@
             ctx.moveTo(canvas.width / 2, 0);
             ctx.lineTo(canvas.width / 2, canvas.height);
             ctx.stroke();
+            ctx.moveTo(-canvas.width / 2, -canvas.height);
         }
 
         left.draw();
         right.draw();
+    }
+
+    function startGame() {
+        timer = new Date();
+        ctx.lineWidth = 10;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowColor = "black";
+        // Shufle the colors and items
+        colors.sort(() => Math.random() - 0.5);
+        items.sort(() => Math.random() - 0.5);
+
+        right = new Shapes(items, colors, { x: canvas.width - h2, y: h2 }, rotation);
+        left = new Shapes(items.slice(6), colors.slice(3), { x: h2, y: h2 }, rotation);
+
+        let r1 = Math.floor(Math.random() * Math.floor(6));
+        let r2 = Math.floor(Math.random() * Math.floor(6));
+        dup = left.shapes[r1].text = right.shapes[r2].text;
+        if (dup.includes("+")){
+            while (left.shapes[r1].text == right.shapes[r2].text) {
+                let v = eval(right.shapes[r2].text)
+                let a = Math.floor(Math.random() * (v-1))+1
+                let b = v - a
+                right.shapes[r2].text = a + "+" + b
+            }
+        } else if (dup.includes("*")) {
+            right.shapes.forEach(c => c.text = eval(c.text));
+        }
+        draw(true)
     }
 
     const canvas = document.getElementById('c');
@@ -296,35 +327,13 @@
         canvas.height *= pt;
     }
     const ctx = canvas.getContext('2d');
-    ctx.lineWidth = 10;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.shadowColor = "black";
-
-    // Shufle the colors and items
-    colors.sort(() => Math.random() - 0.5);
-    items.sort(() => Math.random() - 0.5);
 
     let h2 = canvas.height / 2;
-    let right = new Shapes(items, colors, { x: canvas.width - h2, y: h2 }, rotation);
-    let left = new Shapes(items.slice(6), colors.slice(3), { x: h2, y: h2 }, rotation);
-
-    let r1 = Math.floor(Math.random() * Math.floor(6));
-    let r2 = Math.floor(Math.random() * Math.floor(6));
-    const dup = left.shapes[r1].text = right.shapes[r2].text;
-    if (dup.includes("+")){
-        while (left.shapes[r1].text == right.shapes[r2].text) {
-            let v = eval(right.shapes[r2].text)
-            let a = Math.floor(Math.random() * (v-1))+1
-            let b = v - a
-            right.shapes[r2].text = a + "+" + b
-        }
-    } else if (dup.includes("*")) {
-        right.shapes.forEach(c => c.text = eval(c.text));
-    }
-
-    draw(true)
-    let timer = new Date();
+    let timer = null
+    let right = {}
+    let left = {}
+    let dup = ""
+    startGame()
 
 </script>
 </html>
