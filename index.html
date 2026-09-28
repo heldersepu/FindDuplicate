@@ -300,7 +300,7 @@
         items.sort(() => Math.random() - 0.5);
 
         right = new Shapes(items, colors, { x: canvas.width - h2, y: h2 }, rotation);
-        left = new Shapes(items.slice(6), colors.slice(3), { x: h2, y: h2 }, rotation);
+        left = new Shapes(items.slice(6), colors, { x: h2, y: h2 }, rotation);
 
         let r1 = Math.floor(Math.random() * Math.floor(6));
         let r2 = Math.floor(Math.random() * Math.floor(6));
