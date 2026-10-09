@@ -1,5 +1,5 @@
 # FindDuplicate
-Simple HTML game to find duplicate
+Fun HTML game to find duplicate!
 
 ## Numbers
 - https://heldersepu.github.io/FindDuplicate/#num
@@ -19,5 +19,5 @@ Simple HTML game to find duplicate
 ## Math addition
 - https://heldersepu.github.io/FindDuplicate/#math
 
-## Math multiplication
+## Math multiplying
 - https://heldersepu.github.io/FindDuplicate/#mult
